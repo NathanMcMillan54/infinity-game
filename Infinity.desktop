@@ -1,0 +1,8 @@
+#!/usr/bin/env/ bash
+[Desktop Entry]
+Version=0.1.0
+Name=Infinity
+Comment=The game that never ends
+Exec=/bin/Infinity
+Terminal=false
+Type=Application
