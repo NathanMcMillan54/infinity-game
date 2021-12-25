@@ -1,4 +1,4 @@
-# Infinity (proof of concept)
+# Infinity (beta)
 
 The game that never ends
 
