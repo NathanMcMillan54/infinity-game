@@ -1,0 +1,51 @@
+#!/bin/python3
+
+import os
+import pygame
+import platform
+import getpass
+
+ARCH = platform.machine()
+OS = platform.system()
+screen = pygame.display.set_mode((275, 150))
+clock = pygame.time.Clock()
+
+
+def error(message):
+    font = pygame.font.SysFont('Arial', 16)
+
+    text = font.render(message, True, (0, 0, 0))
+
+    display_msg = True
+
+    while display_msg:
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE or pygame.QUIT:
+                    display_msg = False
+
+        screen.fill((255, 255, 255))
+        clock.tick(60)
+
+        screen.blit(text, (10, 15))
+
+
+def check_files():
+    try:
+        open("/bin/Infinity", "r")
+    except:
+        error("Can't find game file, reinstall Infinity")
+
+
+def main():
+    print("Loading Infinity...")
+    pygame.font.init()
+    pygame.display.set_caption('Loading Infinity...')
+
+    check_files()
+
+
+if __name__ == '__main__':
+    main()
