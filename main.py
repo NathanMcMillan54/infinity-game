@@ -1,13 +1,19 @@
+import getpass
+import os
 import platform
 import sys
-import os
+
+ARCH = platform.machine()
+OS = platform.system()
 
 compatibly = False
 
 
-def move_files(userName):
-    os.rename('Infinity', '/bin/Infinity')
-    os.rename('Infinity.desktop', f'/home/{userName}/Desktop/Infinity.desktop')
+def move_files():
+    os.mkdir(f"/home/{getpass.getuser()}/.infinity/")
+    os.rename(f'{ARCH}-{OS}-Infinity.exe', '/home/{getpass.getuser()}/.infinity/{ARCH}-{OS}-Infinity.exe')
+    os.rename('Infinity.desktop', f'/home/{getpass.getuser()}/Desktop/Infinity.desktop')
+    os.rename('infinity.json', f"/home{getpass.getuser()}/.infinity/infinity.json")
 
 
 def check_compatibility():
@@ -33,11 +39,8 @@ def check_compatibility():
 
 
 def main():
-    print("Your user name should be:")
-    os.system('echo $USER')
-    userName = input("\nEnter you user name: ")
     check_compatibility()
-    move_files(userName)
+    move_files()
     print("Finished installing Infinity")
 
 

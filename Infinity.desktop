@@ -3,6 +3,6 @@
 Version=0.1.0
 Name=Infinity
 Comment=The game that never ends
-Exec=/bin/Infinity
+Exec=/bin/infinity-launcher
 Terminal=false
 Type=Application

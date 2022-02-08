@@ -1,12 +1,15 @@
 #!/bin/python3
 
-import os
+import json
 import pygame
 import platform
 import getpass
+import subprocess
 
 ARCH = platform.machine()
 OS = platform.system()
+EXE_NAME = f"{ARCH}-{OS}-Infinity.exe"
+
 screen = pygame.display.set_mode((275, 150))
 clock = pygame.time.Clock()
 
@@ -34,17 +37,34 @@ def error(message):
 
 def check_files():
     try:
-        open("/bin/Infinity", "r")
+        open(f"/home/{getpass.getuser()}/.infinity/{EXE_NAME}", "r")
     except:
         error("Can't find game file, reinstall Infinity")
+
+    try:
+        open(f"/home/{getpass.getuser()}/.infinity/infinity.json")
+    except:
+        error("Can't find game info file")
+
+
+def read_info():
+    info_file = open(f"/home/{getpass.getuser()}/.infinity/infinity.json")
+
+    info = json.load(info_file)
+
+    if info['version'] == "0":
+        error("Version field in info file is invalid")
 
 
 def main():
     print("Loading Infinity...")
     pygame.font.init()
-    pygame.display.set_caption('Loading Infinity...')
+    pygame.display.set_caption(f'Loading {EXE_NAME}...')
 
     check_files()
+    read_info()
+
+    subprocess.call([f"/home/{getpass.getuser()}/.infinity/{EXE_NAME}"])
 
 
 if __name__ == '__main__':
