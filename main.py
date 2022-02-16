@@ -8,6 +8,9 @@ OS = platform.system()
 
 compatibly = False
 
+def install_requirements():
+	os.system('pip install pygame')
+	os.system('pip install beatifulsoup4')
 
 def move_files():
     os.mkdir(f"/home/{getpass.getuser()}/.infinity/")

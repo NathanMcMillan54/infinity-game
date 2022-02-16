@@ -1,21 +1,24 @@
 #!/bin/python3
 
+import bs4
 import json
 import pygame
 import platform
 import getpass
 import subprocess
+import urllib
+import urllib.request
 
 ARCH = platform.machine()
 OS = platform.system()
 EXE_NAME = f"{ARCH}-{OS}-Infinity.exe"
 
-screen = pygame.display.set_mode((275, 150))
+screen = pygame.display.set_mode((500, 180))
 clock = pygame.time.Clock()
 
 
 def error(message):
-    font = pygame.font.SysFont('Arial', 16)
+    font = pygame.font.SysFont('Arial', 15)
 
     text = font.render(message, True, (0, 0, 0))
 
@@ -32,7 +35,7 @@ def error(message):
         screen.fill((255, 255, 255))
         clock.tick(60)
 
-        screen.blit(text, (10, 15))
+        screen.blit(text, (6, 15))
 
 
 def check_files():
@@ -52,8 +55,15 @@ def read_info():
 
     info = json.load(info_file)
 
-    if info['version'] == "0":
-        error("Version field in info file is invalid")
+    soup = bs4.BeautifulSoup(urllib.request.urlopen("https://NathanMcMillan54.github.io/games/infinity_info.html").read(), "html.parser")
+
+    version = soup.find("div", {"class": "version"}).string
+    date = soup.find("div", {"class": "release_date"}).string
+
+    if str(info['version']) != str(version):
+        error(f"Your game ({info['version']}) needs to be updated (to {version})")
+    elif str(info['date']) != str(date):
+        error("Your game is outdated and needs to be updated")
 
 
 def main():
